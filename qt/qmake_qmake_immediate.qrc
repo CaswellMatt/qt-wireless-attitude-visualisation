@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+<file alias="open-gl/gl-renderer/res/shaders/Basic.shader">/home/mc18g13/projects/wireless-attitude-visualisation/qt/open-gl/gl-renderer/res/shaders/Basic.shader</file>
+</qresource>
+</RCC>
