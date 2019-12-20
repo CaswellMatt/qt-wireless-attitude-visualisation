@@ -110,6 +110,9 @@ void BLEInterface::connectCurrentDevice(int deviceIndex) {
   connect(m_control, SIGNAL(disconnected()),
           this, SLOT(onDeviceDisconnected()));
 
+  connect(m_control, SIGNAL(()),
+          this, SLOT(onDeviceDisconnected()));
+
   m_control->connectToDevice();
 }
 
@@ -188,6 +191,7 @@ void BLEInterface::setCurrentService(int currentService)
   updateCurrentService(currentService);
   m_currentService = currentService;
   emit currentServiceChanged(currentService);
+  emit statusInfoChanged("", true);
 }
 
 void BLEInterface::updateCurrentService(int currentServiceIndex)
