@@ -19,13 +19,11 @@ INCLUDEPATH += \
 RESOURCES += open-gl/gl-renderer/res/shaders/Basic.shader
 
 SOURCES += \
-    open-gl/gl-renderer/vendor/stb_image/stb_image.cpp \
     open-gl/gl-renderer/VertexBuffer.cpp \
     open-gl/gl-renderer/IndexBuffer.cpp \
     open-gl/gl-renderer/GLMathematics.cpp \
     open-gl/gl-renderer/Shader.cpp \
     open-gl/gl-renderer/VertexArray.cpp \
-    open-gl/gl-renderer/Texture.cpp \
     open-gl/gl-renderables/Cube.cpp \
     open-gl/gl-renderables/RenderableData.cpp \
     open-gl/gl-renderables/Grid.cpp \
@@ -39,9 +37,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
-    open-gl/gl-renderer/vendor/stb_image/stb_image.h \
     open-gl/gl-renderer/VertexBuffer.h \
-    open-gl/gl-renderer/Texture.h \
     open-gl/gl-renderer/GLMathematics.h \
     open-gl/gl-renderer/Shader.h \
     open-gl/gl-renderer/VertexBufferLayout.h \
