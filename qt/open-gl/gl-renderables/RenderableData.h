@@ -7,10 +7,19 @@
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
 
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
+
+
 class RenderableData {
 public:
   RenderableData(Renderable &object);
   virtual ~RenderableData();
+
+  QOpenGLVertexArrayObject m_vertexArray;
+  QOpenGLBuffer m_vertexBuffer;
+  QOpenGLBuffer m_indexBuffer;
+
 
   VertexArray vertexArray;
   VertexBuffer vertexBuffer;

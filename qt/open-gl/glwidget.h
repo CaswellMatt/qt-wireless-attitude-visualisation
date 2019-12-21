@@ -32,6 +32,14 @@ private:
   Cylinder* m_orientationY;
   Cylinder* m_orientationZ;
 
+  RenderableData* m_gridData;
+  RenderableData* m_xAxisData;
+  RenderableData* m_yAxisData;
+  RenderableData* m_zAxisData;
+  RenderableData* m_xOrientationData;
+  RenderableData* m_yOrientationData;
+  RenderableData* m_zOrientationData;
+
   Shader* m_shader;
   QGLShaderProgram m_shaderProgram;
   Renderer* m_renderer;
@@ -39,7 +47,6 @@ private:
 public:
   explicit GLWidget(QWidget *parent = nullptr);
   ~GLWidget();
-  void updateGL();
 protected:
   virtual void initializeGL() override;
   virtual void paintGL() override;
@@ -48,6 +55,7 @@ signals:
 
 public slots:
   void dataReceived(QByteArray data);
+  void resizeGL(QResizeEvent *event);
 };
 
 #endif

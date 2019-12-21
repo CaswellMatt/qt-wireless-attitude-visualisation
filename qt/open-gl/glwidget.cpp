@@ -56,13 +56,13 @@ GLWidget::GLWidget(QWidget *parent)
     m_orientationX(nullptr),
     m_orientationY(nullptr),
     m_orientationZ(nullptr),
-    //    m_gridData(nullptr),
-    //    m_xAxisData(nullptr),
-    //    m_yAxisData(nullptr),
-    //    m_zAxisData(nullptr),
-    //    m_xOrientationData(nullptr),
-    //    m_yOrientationData(nullptr),
-    //    m_zOrientationData(nullptr),
+    m_gridData(nullptr),
+    m_xAxisData(nullptr),
+    m_yAxisData(nullptr),
+    m_zAxisData(nullptr),
+    m_xOrientationData(nullptr),
+    m_yOrientationData(nullptr),
+    m_zOrientationData(nullptr),
     m_shader(nullptr),
     m_renderer(nullptr) {
 
@@ -86,13 +86,13 @@ GLWidget::~GLWidget() {
   delete m_orientationY;
   delete m_orientationZ;
 
-  //  delete m_gridData;
-  //  delete m_xAxisData;
-  //  delete m_yAxisData;
-  //  delete m_zAxisData;
-  //  delete m_xOrientationData;
-  //  delete m_yOrientationData;
-  //  delete m_zOrientationData;
+  delete m_gridData;
+  delete m_xAxisData;
+  delete m_yAxisData;
+  delete m_zAxisData;
+  delete m_xOrientationData;
+  delete m_yOrientationData;
+  delete m_zOrientationData;
   delete m_shader;
 
   delete m_renderer;
@@ -130,44 +130,35 @@ void GLWidget::initializeGL() {
   m_orientationY = new Cylinder(vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f), lengthOrientation, radiusOrientation);
   m_orientationZ = new Cylinder(vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 1.0f), lengthOrientation, radiusOrientation);
 
+  m_gridData = new RenderableData(*m_grid);
+  m_xAxisData = new RenderableData(*m_xAxis);
+  m_yAxisData = new RenderableData(*m_yAxis);;
+  m_zAxisData = new RenderableData(*m_zAxis);
+  m_xOrientationData = new RenderableData(*m_orientationX);
+  m_yOrientationData = new RenderableData(*m_orientationY);
+  m_zOrientationData = new RenderableData(*m_orientationZ);
+
   m_shaderProgram.addShaderFromSourceFile(QGLShader::Vertex, "open-gl/gl-renderer/res/shaders/basicshader.vert");
   m_shaderProgram.addShaderFromSourceFile(QGLShader::Fragment, "open-gl/gl-renderer/res/shaders/basicshader.frag");
   m_shaderProgram.link();
 
-  if (m_shaderProgram.log() != "") {
+  if (!m_shaderProgram.log().isEmpty()) {
     qDebug() << m_shaderProgram.log();
   }
 
   m_renderer = new Renderer();
 }
 
-void GLWidget::updateGL() {
-  paintGL();
-}
-
 void GLWidget::paintGL() {
-
-  RenderableData m_gridData(*m_grid);
-  RenderableData m_xAxisData(*m_xAxis);
-  RenderableData m_yAxisData(*m_yAxis);;
-  RenderableData m_zAxisData(*m_zAxis);
-  RenderableData m_xOrientationData(*m_orientationX);
-  RenderableData m_yOrientationData(*m_orientationY);
-  RenderableData m_zOrientationData(*m_orientationZ);
 
   float screenWidth = 1000.0f;
   float screenHeight = 1000.0f;
-//  float screenDepth = 10*2000.0f;
 
   float halfScreenWidth = screenWidth/2;
   float halfScreenHeight = screenHeight/2;
-//  float halfScreenDepth = screenDepth/2;
 
   QMatrix4x4 Proj;
   Proj.perspective(glm::radians(2000.0f), (float) halfScreenWidth / (float)halfScreenHeight, 0.1f, 50000.0f);
-
-//  double previousTime = glfwGetTime();
-//  int frameCount = 0;
 
   QMatrix4x4 View = QMatrix4x4();
 
@@ -200,32 +191,28 @@ void GLWidget::paintGL() {
 
   m_shaderProgram.setUniformValueArray("u_MVP", &MVPOrientation, 1);
   m_shaderProgram.bind();
-  m_renderer->Draw(m_xOrientationData, GL_TRIANGLE_STRIP);
-  m_renderer->Draw(m_yOrientationData, GL_TRIANGLE_STRIP);
-  m_renderer->Draw(m_zOrientationData, GL_TRIANGLE_STRIP);
+  m_renderer->Draw(*m_xOrientationData, GL_TRIANGLE_STRIP);
+  m_renderer->Draw(*m_yOrientationData, GL_TRIANGLE_STRIP);
+  m_renderer->Draw(*m_zOrientationData, GL_TRIANGLE_STRIP);
 
   MVPScene = projectionView * sceneModel;
   m_shaderProgram.setUniformValueArray("u_MVP", &MVPScene, 1);
   m_shaderProgram.bind();
-  m_renderer->Draw(m_xAxisData, GL_TRIANGLE_STRIP);
-  m_renderer->Draw(m_yAxisData, GL_TRIANGLE_STRIP);
-  m_renderer->Draw(m_zAxisData, GL_TRIANGLE_STRIP);
-  m_renderer->Draw(m_gridData , GL_LINES);
+  m_renderer->Draw(*m_xAxisData, GL_TRIANGLE_STRIP);
+  m_renderer->Draw(*m_yAxisData, GL_TRIANGLE_STRIP);
+  m_renderer->Draw(*m_zAxisData, GL_TRIANGLE_STRIP);
+  m_renderer->Draw(*m_gridData , GL_LINES);
 
-//  double currentTime = glfwGetTime();
-//  frameCount++;
-
-  this->update();
 }
 
 void GLWidget::resizeGL(int width, int height) {
   int side = qMin(width, height);
   glViewport((width - side) / 2, (height - side) / 2, side, side);
 
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glOrtho(-2, +2, -2, +2, 1.0, 15.0);
-  glMatrixMode(GL_MODELVIEW);
+//  glMatrixMode(GL_PROJECTION);
+//  glLoadIdentity();
+//  glOrtho(-2, +2, -2, +2, 1.0, 15.0);
+//  glMatrixMode(GL_MODELVIEW);
 }
 
 #include <QTextCodec>
@@ -244,4 +231,10 @@ void GLWidget::dataReceived(QByteArray data) {
     m_q4 = query[3].toFloat();
   }
 
+}
+
+#include <QResizeEvent>
+#include <QLayout>
+void GLWidget::resizeGL(QResizeEvent *parentEvent) {
+  this->resize(parentEvent->size().height(), parentEvent->size().height());
 }

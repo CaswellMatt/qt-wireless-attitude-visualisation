@@ -16,7 +16,7 @@ INCLUDEPATH += \
   open-gl \
   bluetooth
 
-RESOURCES += open-gl/gl-renderer/res/shaders/Basic.shader
+RESOURCES +=
 
 SOURCES += \
     open-gl/gl-renderer/VertexBuffer.cpp \

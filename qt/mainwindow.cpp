@@ -9,9 +9,14 @@ MainWindow::MainWindow(QWidget *parent)
   setupBLEInterface();
 
   m_timer = new QTimer(this);
-  const int IntervalTime = 10;
-  connect(m_timer, &QTimer::timeout, ui->openGLWidget, &GLWidget::updateGL);
+  const int IntervalTime = 1;
+  connect(m_timer, SIGNAL(timeout()),
+          ui->openGLWidget, SLOT(update()));
   m_timer->start(IntervalTime);
+
+  connect(this, SIGNAL(resizeWindow(QResizeEvent *)),
+          ui->openGLWidget, SLOT(resizeGL(QResizeEvent *)));
+
 }
 
 MainWindow::~MainWindow() {
@@ -102,6 +107,10 @@ void MainWindow::handleSendButtonClicked()
 
   m_bleInterface->write(data);
   ui->sendTextEdit->clear();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+  emit resizeWindow(event);
 }
 
 

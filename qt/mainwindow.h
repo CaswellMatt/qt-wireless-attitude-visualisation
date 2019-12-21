@@ -15,7 +15,6 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 private:
   Ui::MainWindow *ui;
-  GLWidget* m_glWidget;
   QTimer* m_timer;
 
 public:
@@ -37,7 +36,10 @@ private slots:
 
 private:
   void setupBLEInterface();
+  virtual void resizeEvent(QResizeEvent* event) override;
 
+signals:
+  void resizeWindow(QResizeEvent *event);
 
 };
 #endif
