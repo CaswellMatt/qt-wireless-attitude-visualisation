@@ -111,6 +111,7 @@ void MainWindow::handleSendButtonClicked()
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
   emit resizeWindow(event);
+  QMainWindow::resizeEvent(event);
 }
 
 

@@ -55,7 +55,7 @@ signals:
 
 public slots:
   void dataReceived(QByteArray data);
-  void resizeGL(QResizeEvent *event);
+//  void resizeGL(QResizeEvent *event);
 };
 
 #endif

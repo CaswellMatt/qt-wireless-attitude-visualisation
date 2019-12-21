@@ -208,7 +208,7 @@ void GLWidget::paintGL() {
 void GLWidget::resizeGL(int width, int height) {
   int side = qMin(width, height);
   glViewport((width - side) / 2, (height - side) / 2, side, side);
-
+  this->resize(side,side);
 //  glMatrixMode(GL_PROJECTION);
 //  glLoadIdentity();
 //  glOrtho(-2, +2, -2, +2, 1.0, 15.0);
@@ -233,8 +233,8 @@ void GLWidget::dataReceived(QByteArray data) {
 
 }
 
-#include <QResizeEvent>
-#include <QLayout>
-void GLWidget::resizeGL(QResizeEvent *parentEvent) {
-  this->resize(parentEvent->size().height(), parentEvent->size().height());
-}
+//#include <QResizeEvent>
+//#include <QLayout>
+//void GLWidget::resizeGL(QResizeEvent *parentEvent) {
+//  this->resize(parentEvent->size().height(), parentEvent->size().height());
+//}
